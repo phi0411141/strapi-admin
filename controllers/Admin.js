@@ -231,7 +231,7 @@ module.exports = {
 
   async update(ctx) {
     const { id } = ctx.params;
-    const { email, username, password, blocked } = ctx.request.body;
+    const { email, username, password, blocked, admin_layout } = ctx.request.body;
 
     if (!email) {
       return ctx.badRequest(
@@ -309,9 +309,10 @@ module.exports = {
     }
 
     const user = {
+      admin_layout,
       email: email,
       username: username,
-      blocked: blocked === true ? true : false,
+      blocked: blocked === true,
     };
 
     if (password !== admin.password) {
