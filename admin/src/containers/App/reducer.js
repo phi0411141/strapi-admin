@@ -22,6 +22,8 @@ const initialState = fromJS({
   isLoading: true,
   overlayBlockerData: null,
   plugins: {},
+  layout: {},
+  skipInitLoading: false,
   showGlobalAppBlocker: true,
   strapiVersion: '3',
   uuid: false,
@@ -44,7 +46,7 @@ function appReducer(state = initialState, action) {
     case GET_DATA_SUCCEEDED: {
       const {
         hasAdminUser,
-        data: { uuid, currentEnvironment, autoReload, strapiVersion },
+        data: { uuid, currentEnvironment, autoReload, strapiVersion, layout },
       } = action;
 
       return state
@@ -53,6 +55,7 @@ function appReducer(state = initialState, action) {
         .update('uuid', () => uuid)
         .update('autoReload', () => autoReload)
         .update('currentEnvironment', () => currentEnvironment)
+        .update('layout', () => layout)
         .update('strapiVersion', () => strapiVersion);
     }
     case PLUGIN_LOADED:

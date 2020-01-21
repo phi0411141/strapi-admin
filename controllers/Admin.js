@@ -2,6 +2,7 @@
 
 const execa = require('execa');
 const _ = require('lodash');
+const layout = require('../config/layout');
 
 const formatError = error => [
   { messages: [{ id: error.id, message: error.message, field: error.field }] },
@@ -24,13 +25,14 @@ const isValidPluginName = plugin => {
 
 module.exports = {
   async init(ctx) {
+    console.log(ctx);
     const uuid = _.get(strapi, ['config', 'uuid'], false);
     const currentEnvironment = strapi.app.env;
     const autoReload = _.get(strapi, ['config', 'autoReload'], false);
     const strapiVersion = _.get(strapi.config, 'info.strapi', null);
 
     return ctx.send({
-      data: { uuid, currentEnvironment, autoReload, strapiVersion },
+      data: { uuid, currentEnvironment, autoReload, strapiVersion, layout },
     });
   },
 
