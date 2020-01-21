@@ -44,7 +44,8 @@
         "STAFF"
       ],
       "default": "STAFF",
-      "required": true
+      "required": true,
+      "configurable": false
     }
   }
 }
