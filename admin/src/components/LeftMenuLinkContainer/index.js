@@ -70,7 +70,7 @@ function LeftMenuLinkContainer({ plugins, ...rest }) {
   // Check if the plugins list is empty or not and display plugins by name
   const pluginsLinks = !isEmpty(plugins) ? (
     map(sortBy(plugins, 'name'), plugin => {
-      if (plugin.id === 'user-permissions' && get(auth.getUserInfo(), 'admin_layout') !== ADMIN_ROLE.ADMIN) {
+      if (plugin.id === 'users-permissions' && get(auth.getUserInfo(), 'admin_layout') !== ADMIN_ROLE.ADMIN) {
         return null
       }
 
