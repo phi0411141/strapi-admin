@@ -25,7 +25,7 @@ const isValidPluginName = plugin => {
 
 module.exports = {
   async init(ctx) {
-    console.log(ctx);
+    console.log(ctx.request);
     const uuid = _.get(strapi, ['config', 'uuid'], false);
     const currentEnvironment = strapi.app.env;
     const autoReload = _.get(strapi, ['config', 'autoReload'], false);

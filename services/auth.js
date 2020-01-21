@@ -10,7 +10,7 @@ const sanitizeUser = user => {
 
 /**
  * Creates a JWT token for an administration user
- * @param {object} admon - admin user
+ * @param {object} admin - admin user
  */
 const createJwtToken = admin => {
   return strapi.plugins['users-permissions'].services.jwt.issue({
