@@ -35,6 +35,16 @@
       "type": "boolean",
       "default": false,
       "configurable": false
+    },
+    "admin_layout": {
+      "type": "enumeration",
+      "enum": [
+        "ADMIN",
+        "MANAGER",
+        "STAFF"
+      ],
+      "default": "STAFF",
+      "required": true
     }
   }
 }
