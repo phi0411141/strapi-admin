@@ -15,6 +15,7 @@ import messages from './messages.json';
 
 function LeftMenuLinkContainer({ plugins, ...rest }) {
   // Generate the list of sections
+  console.log(plugins);
   const pluginsSections = Object.keys(plugins).reduce((acc, current) => {
     plugins[current].leftMenuSections.forEach((section = {}) => {
       if (!isEmpty(section.links)) {

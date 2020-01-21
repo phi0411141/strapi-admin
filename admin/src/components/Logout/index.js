@@ -18,10 +18,12 @@ import {
 } from 'reactstrap';
 import { auth } from 'strapi-helper-plugin';
 import Wrapper from './components';
+import { ADMIN_ROLE } from '../../config';
 
 const Logout = ({ history: { push } }) => {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(prev => !prev);
+
   const handleGoTo = () => {
     const id = get(auth.getUserInfo(), 'id');
 
@@ -46,18 +48,21 @@ const Logout = ({ history: { push } }) => {
       <ButtonDropdown isOpen={isOpen} toggle={toggle}>
         <DropdownToggle>
           {get(auth.getUserInfo(), 'username')}
-          <FontAwesomeIcon icon="caret-down" />
+          <FontAwesomeIcon icon="caret-down"/>
         </DropdownToggle>
         <DropdownMenu className="dropDownContent">
           <DropdownItem onClick={handleGoTo} className="item">
-            <FormattedMessage id="app.components.Logout.profile" />
+            <FormattedMessage id="app.components.Logout.profile"/>
           </DropdownItem>
-          <DropdownItem onClick={handleGoToAdministrator} className="item">
-            <FormattedMessage id="app.components.Logout.admin" />
-          </DropdownItem>
+          {
+            get(auth.getUserInfo(), 'admin_layout') === ADMIN_ROLE.ADMIN ?
+              <DropdownItem onClick={handleGoToAdministrator} className="item">
+                <FormattedMessage id="app.components.Logout.admin"/>
+              </DropdownItem> : null
+          }
           <DropdownItem onClick={handleLogout}>
-            <FormattedMessage id="app.components.Logout.logout" />
-            <FontAwesomeIcon icon="sign-out-alt" />
+            <FormattedMessage id="app.components.Logout.logout"/>
+            <FontAwesomeIcon icon="sign-out-alt"/>
           </DropdownItem>
         </DropdownMenu>
       </ButtonDropdown>
