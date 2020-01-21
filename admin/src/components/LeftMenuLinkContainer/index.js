@@ -8,10 +8,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { get, snakeCase, isEmpty, map, sortBy } from 'lodash';
+import { auth } from 'strapi-helper-plugin';
 
 import LeftMenuLink from '../LeftMenuLink';
 import Wrapper from './Wrapper';
 import messages from './messages.json';
+import { ADMIN_ROLE } from '../../config';
 
 function LeftMenuLinkContainer({ plugins, ...rest }) {
   // Generate the list of sections
@@ -68,10 +70,13 @@ function LeftMenuLinkContainer({ plugins, ...rest }) {
   // Check if the plugins list is empty or not and display plugins by name
   const pluginsLinks = !isEmpty(plugins) ? (
     map(sortBy(plugins, 'name'), plugin => {
+      if (plugin.id === 'user-permissions' && get(auth.getUserInfo(), 'admin_layout') !== ADMIN_ROLE.ADMIN) {
+        return null
+      }
+
       if (plugin.id !== 'email' && plugin.id !== 'content-manager') {
-        const pluginSuffixUrl = plugin.suffixUrl
-          ? plugin.suffixUrl(plugins)
-          : '';
+
+        const pluginSuffixUrl = plugin.suffixUrl ? plugin.suffixUrl(plugins) : '';
 
         const destination = `/plugins/${get(plugin, 'id')}${pluginSuffixUrl}`;
 
@@ -101,11 +106,13 @@ function LeftMenuLinkContainer({ plugins, ...rest }) {
       icon: 'list',
       label: messages.listPlugins.id,
       destination: '/list-plugins',
+      requireAdmin: true
     },
     {
       icon: 'shopping-basket',
       label: messages.installNewPlugin.id,
       destination: '/marketplace',
+      requireAdmin: true
     },
   ];
 
@@ -123,9 +130,11 @@ function LeftMenuLinkContainer({ plugins, ...rest }) {
           <FormattedMessage {...messages.general} />
         </p>
         <ul className="list">
-          {staticLinks.map(link => (
-            <LeftMenuLink {...rest} key={link.destination} {...link} />
-          ))}
+          {staticLinks.map(link => {
+            if (link.requireAdmin && get(auth.getUserInfo(), 'admin_layout') !== ADMIN_ROLE.ADMIN) return null;
+
+            return <LeftMenuLink {...rest} key={link.destination} {...link} />
+          })}
         </ul>
       </div>
     </Wrapper>
