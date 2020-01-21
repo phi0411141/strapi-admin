@@ -42,7 +42,7 @@ const Logout = ({ history: { push } }) => {
     auth.clearAppStorage();
     push('/auth/login');
   };
-
+  console.log(get(auth.getUserInfo(), 'admin_layout'));
   return (
     <Wrapper>
       <ButtonDropdown isOpen={isOpen} toggle={toggle}>
